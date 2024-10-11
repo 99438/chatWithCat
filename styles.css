@@ -3,6 +3,7 @@ body {
     padding: 0; /* 移除内边距 */
     width: 100%; /* 设置宽度为100% */
     height: 100vh; /* 设置高度为视口高度 */
+    overflow-x: hidden; /* 防止横向滚动 */
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     display: flex;
@@ -27,6 +28,7 @@ body {
     max-width: 400px; /* 确保宽度与 chat-header 一致 */
     height: calc(100vh - 60px); /* 动态调整高度：总屏幕高度减去聊天头部的高度 */
     overflow-y: auto;
+     margin: auto; /* 水平居中 */
     padding-top: 20px;
     padding:20px 20px;
     border: 1px solid #ccc;
