@@ -1,6 +1,8 @@
 body {
     margin: 0; /* 移除外边距 */
     padding: 0; /* 移除内边距 */
+    width: 100%; /* 设置宽度为100% */
+    height: 100vh; /* 设置高度为视口高度 */
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     display: flex;
@@ -90,19 +92,6 @@ body {
     border-radius: 10px;
     opacity: 0;
     animation: fadeIn 0.5s forwards;
-}
-
-@media screen and (max-width: 600px) {
-    #chat-header {
-        padding: 10px 0;
-        font-size: 1rem;
-    }
-    #chat-container {
-        max-width: 100%;
-    }
-    .message {
-        max-width: 90%;
-    }
 }
 
 @keyframes fadeIn {
