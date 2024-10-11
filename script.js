@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     const initialMessages = [
-        { sender: "you", text: "阿厌！啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", type: "sender" },
-        { text: "嗯？", type: "receiver" }
+        { sender: "you", text: "阿厌！", type: "sender" },
+        { text: "嗯？", type: "receiver" },
+        { sender: "you", text: "突然发现一件很重要的事", type: "sender" },
+        { sender: "you", text: "明天……", type: "sender" }
     ];
 
     showMessageSequentially(initialMessages, 0, () => showChoices('initial'));
@@ -10,11 +12,12 @@ document.addEventListener("DOMContentLoaded", function() {
 function showMessageSequentially(messages, index, callback) {
     if (index < messages.length) {
         const message = messages[index];
+        const delay = message.type === 'conclusion' ? 0 : 1000 * index;
         setTimeout(() => {
             addMessage(message.text, message.type);
             showMessageSequentially(messages, index + 1, callback);
-        }, 1000 * index);
-    } else if (callback) {
+        }, delay);
+    } else if (callback && typeof callback === 'function') {
         callback();
     }
 }
@@ -29,7 +32,7 @@ function addMessage(text, className) {
     if (className === "receiver") {
         const avatar = document.createElement('img');
         // 头像图片的路径
-        avatar.src = 'cat.jpg';
+        avatar.src = 'cat.png';
         avatar.className = 'avatar';
         messageDiv.appendChild(avatar);
     }
@@ -47,22 +50,26 @@ function addMessage(text, className) {
 function showChoices(choiceType) {
     const choicesData = {
         'initial': [
-            { text: "承泽，关于我们之间，我总感觉有些隔阂。你能告诉我，你心里在想什么吗？", responseKey: 'first' },
-            { text: "我注意到你最近和长公主走得很近，这让我很不安。我们能谈谈吗？", responseKey: 'second' }
+            { text: "是鱼摊收保护费的时间了哦？", responseKey: '1' },
+            { text: "明天就要欠阿厌一个吻了", responseKey: '2' }
         ],
-        'first': [
-            { text: "承泽，我愿意倾听你的所有烦恼。或许，我们可以一起找到解决的办法。", responseKey: 'A' },
-            { text: "如果你现在不想说，也没关系。但请记得，无论何时，我都在这里等你。", responseKey: 'B' }
+        '1': [
+            { text: "最近手头比较紧嘛……", responseKey: 'A' },
+            { text: "习惯了，就当是体验生活了？", responseKey: 'B' }
         ],
-        'second': [
-            { text: "承泽，我相信你的判断。但请记得，你的安全比我更重要。如果你需要，我可以帮你。", responseKey: 'C' },
-            { text: "我无法忍受你与她的任何接触。如果你真的在乎我，就请远离她。", responseKey: 'D' }
+        '2': [
+            { text: "等等……!", responseKey: '3' },
+            { text: "那就恭候统领大架咯？", responseKey: 'C' },
+        ],
+        '3': [
+            { text: "我最近手头还听宽裕的……", responseKey: 'D' },
+            { text: "现在不在家……！！", responseKey: 'E' },
         ]
     };
 
     const currentChoices = choicesData[choiceType];
     const chatContainer = document.getElementById('chat-container');
-    chatContainer.querySelectorAll('.choice').forEach(el => el.remove()); // Remove all previous choices
+    chatContainer.querySelectorAll('.choice').forEach(el => el.remove());
 
     setTimeout(() => {
         currentChoices.forEach(choice => {
@@ -70,46 +77,81 @@ function showChoices(choiceType) {
             choiceDiv.className = 'message choice';
             choiceDiv.textContent = choice.text;
             choiceDiv.onclick = () => {
-                chatContainer.querySelectorAll('.choice').forEach(el => el.remove()); // Remove other choices
-                addMessage(choice.text, "sender"); // Add chosen option as a message
+                chatContainer.querySelectorAll('.choice').forEach(el => el.remove());
+                addMessage(choice.text, "sender");
                 handleChoice(choice.responseKey);
             };
             chatContainer.appendChild(choiceDiv);
             window.setTimeout(() => choiceDiv.style.opacity = 1, 10);
         });
 
-        // Scroll to bottom after showing choices
         chatContainer.scrollTop = chatContainer.scrollHeight;
-    }, 1000); // Show choices after 1 second
+    }, 1000);
 }
 
 function getRandomDelay() {
-    return Math.floor(Math.random() * 9000) + 2000; // Random delay between 2 to 10 seconds
+    return Math.floor(Math.random() * 9000) + 1000;
 }
 
 function handleChoice(responseKey) {
     const responses = {
-        'first': [
-            { text: "范闲，你敏锐如常。确实，我心里有很多事情在盘旋。但请相信，我对你的感情从未改变。", type: "receiver" }
+        '1': [
+            { text: "？", type: "receiver" },
+            { text: "我没记错的话，我们的南州督军大人明天好不容易休沐吧？", type: "receiver" },
+            { text: "还要去卖鱼？", type: "receiver" },
         ],
-        'second': [
-            { text: "范闲，你误会了。我和长公主之间只是利益交换，没有其他。但你的担忧，我会放在心上。", type: "receiver" }
+        '2': [
+            { text: "欠？", type: "receiver" },
+            { text: "嗯，那确实是件大事。瞻京卫向来不会对欠债不还这种恶事置之不理。", type: "receiver" },
+            { text: "事不宜迟，统领现在亲自过去查办。我们的南州督军大人此刻在家吧？", type: "receiver" }
+        ],
+        '3': [
+            { text: "怎么，大人有什么难处吗？", type: "receiver" },
         ],
         'A': [
-            { text: "谢谢你，范闲。你的理解和支持对我来说意义重大。我会慢慢向你敞开心扉的。", type: "receiver" },
-            { text: "分支结局一：两人开始更加深入地交流彼此的心声和烦恼，逐渐消除了隔阂，感情更加深厚。", type: "conclusion" }
+            { text: "缺钱怎么不和我说？", type: "receiver" },
+            { text: "你的鱼有多少？全都给我，我全买了。", type: "receiver" },
+            { text: "上次买的十条吃完了？", type: "sender" },
+            { text: "嗯。", type: "receiver" },
+            { text: "真的？", type: "sender" },
+            { text: "真的。", type: "receiver" },
+            { text: "^^好小猫，乖狸儿", type: "sender" },
+            { text: "…不许问了。你在家吧？我现在就去找你拿。", type: "receiver" },
+            { text: "end：黑毛白猫能吃鱼的猫就是好猫", type: "conclusion" }
         ],
         'B': [
-            { text: "范闲，你的包容让我感动。请给我一些时间，我会处理好自己的事情，然后找你详谈。", type: "receiver" },
-            { text: "分支结局二：李承泽在独处中反思了自己的情感和责任，最终决定向范闲坦白一切，两人共同面对未来的挑战。", type: "conclusion" }
+            { text: "鱼都卖给我，明天带你去体验其他生活。", type: "receiver" },
+            { text: "昨日巡逻的时候看到河道两岸的花开得正盛，就是不知大人愿不愿意赏脸？", type: "receiver" },
+            { text: "要是本官说没空陪厌统领呢？", type: "sender" },
+            { text: "我陪你也行，去哪你定。", type: "receiver" },
+            { text: "这么霸道？", type: "sender" },
+            { text: "嗯，就这么霸道。", type: "receiver" },
+            { text: "end：下班了粗去丸嘛", type: "conclusion" }
         ],
         'C': [
-            { text: "范闲，你的关心让我很温暖。但请放心，我有自己的打算和安排。你的支持，是我最坚实的后盾。", type: "receiver" },
-            { text: "分支结局三：范闲选择相信并支持李承泽，两人共同制定计划，确保李承泽的安全并推进复仇计划。他们的关系在共同奋斗中更加牢固。", type: "conclusion" }
+            { text: "嗯", type: "receiver" },
+            { text: "债主来了，大人不开门吗？", type: "receiver" },
+            { text: "end：欠债还钱 欠吻还吻", type: "conclusion" }
         ],
         'D': [
-            { text: "范闲，你的占有欲让我感到压力。我不能为了迎合你而放弃自己的原则和计划。", type: "receiver" },
-            { text: "分支结局四：范闲的强势要求让李承泽感到困扰和不满，两人的关系因此出现裂痕。他们开始重新审视彼此的价值观和期望，面临分手的危机。", type: "conclusion" }
+            { text: "现在知道交钱了？", type: "receiver" },
+            { text: "迟了。", type: "receiver" },
+            { text: "你们瞻京卫这么不讲理？", type: "sender" },
+            { text: "嗯。就是这么不讲理。", type: "receiver" },
+            { text: "在家等我，马上到。", type: "receiver" },
+            { text: "end：贿赂公职人员是不对的", type: "conclusion" }
+        ],
+        'E': [
+            { text: "不在家？", type: "receiver" },
+            { text: "哦…在江边啊", type: "receiver" },
+            { text: "钓鱼？还是", type: "receiver" },
+            { text: "数鹅呢？", type: "receiver" },
+            { text: "行。一会就有东西帮你打窝了。", type: "receiver" },
+            { text: "等我^^", type: "receiver" },
+            { text: "？？？阿厌？", type: "sender" },
+            { text: "等一下？", type: "sender" },
+            { text: "阿厌！！", type: "sender" },
+            { text: "end：鹅鹅鹅?", type: "conclusion" }
         ]
     };
 
@@ -117,10 +159,12 @@ function handleChoice(responseKey) {
     const delay = getRandomDelay();
     setTimeout(() => {
         showMessageSequentially(nextResponses, 0, () => {
-            if (responseKey === 'first') {
-                showChoices('first');
-            } else if (responseKey === 'second') {
-                showChoices('second');
+            if (responseKey === '1') {
+                showChoices('1');
+            } else if (responseKey === '2') {
+                showChoices('2');
+            } else if (responseKey === '3') {
+                showChoices('3');
             } else {
                 const conclusion = nextResponses.find(response => response.type === 'conclusion');
                 if (conclusion) {
@@ -128,7 +172,7 @@ function handleChoice(responseKey) {
                 }
             }
         });
-    }, delay); // Add random delay before showing response
+    }, delay);
 }
 
 function showConclusion(conclusionText) {
@@ -138,5 +182,5 @@ function showConclusion(conclusionText) {
     conclusionDiv.innerHTML = conclusionText;
     chatContainer.appendChild(conclusionDiv);
     chatContainer.scrollTop = chatContainer.scrollHeight;
-    window.setTimeout(() => conclusionDiv.style.opacity = 1, 10);
+    conclusionDiv.style.opacity = 1; 
 }
