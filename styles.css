@@ -6,6 +6,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100%; /* 使用100%确保高度占满整个视口 */
+    max-height: 100%;
     overflow-x: hidden; /* 隐藏水平滚动条 */
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -28,6 +29,7 @@ body {
     width: 90%; /* 修改为90%以适应屏幕宽度 */
     max-width: 400px; /* 最大宽度限制 */
     height: calc(100vh - 60px);
+    max-height: 100%;
     margin: auto; /* 水平居中 */
     padding: 20px;
     box-sizing: border-box;
