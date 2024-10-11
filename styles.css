@@ -50,6 +50,8 @@ body {
     background-color: #5c2dea;
     color: white;
     text-align: left;
+    padding: 8px;
+    border-radius: 10px;
 }
 
 .receiver {
@@ -96,7 +98,7 @@ body {
 }
 
 .choice:hover {
-    background-color: #e0e0e0;
+    background-color: #d7d7de;
 }
 
 .conclusion {
