@@ -59,7 +59,7 @@ function showChoices(choiceType) {
         ],
         '2': [
             { text: "等等……!", responseKey: '3' },
-            { text: "那就恭候统领大架咯？", responseKey: 'C' },
+            { text: "那就恭候统领大驾咯？", responseKey: 'C' },
         ],
         '3': [
             { text: "我最近手头还挺宽裕的……", responseKey: 'D' },
