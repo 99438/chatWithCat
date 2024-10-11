@@ -62,7 +62,7 @@ function showChoices(choiceType) {
             { text: "那就恭候统领大架咯？", responseKey: 'C' },
         ],
         '3': [
-            { text: "我最近手头还听宽裕的……", responseKey: 'D' },
+            { text: "我最近手头还挺宽裕的……", responseKey: 'D' },
             { text: "现在不在家……！！", responseKey: 'E' },
         ]
     };
