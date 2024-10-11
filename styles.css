@@ -1,12 +1,6 @@
-html {
-    height: 100%;
-}
-
 body {
     margin: 0;
     padding: 0;
-    height: 100%; /* 使用100%确保高度占满整个视口 */
-    max-height: 100%;
     overflow-x: hidden; /* 隐藏水平滚动条 */
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -18,7 +12,7 @@ body {
 
 #chat-header {
     text-align: center;
-    width: 90%; /* 修改为90%以适应屏幕宽度 */
+    width: 90%;
     max-width: 400px; /* 最大宽度限制 */
     background-color: #f1f1f1;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -29,9 +23,9 @@ body {
     width: 90%; /* 修改为90%以适应屏幕宽度 */
     max-width: 400px; /* 最大宽度限制 */
     height: calc(100vh - 60px);
-    max-height: 100%;
     margin: auto; /* 水平居中 */
     padding: 20px;
+    overflow-y: auto;
     box-sizing: border-box;
     border: 1px solid #ccc;
     background-color: #fff;
