@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const initialMessages = [
-        { sender: "Fan Xian", text: "夜深了，你还在忙吗？承泽，我有些话想啊啊啊啊啊啊啊啊啊啊啊第五大道的点点滴滴哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒多大对你说。夜深了，你还在忙吗？承泽，我有些话想啊啊啊啊啊啊啊啊啊啊啊第五大道的点点滴滴哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒多大对你说夜深了，你还在忙吗？承泽，我有些话想啊啊啊啊啊啊啊啊啊啊啊第五大道的点点滴滴哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒哒多大对你说", type: "sender" },
-        { text: "刚处理完一些事务，正准备休息。范闲，你找我有什么事吗？", type: "receiver" }
+        { sender: "you", text: "阿厌！啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊", type: "sender" },
+        { text: "嗯？", type: "receiver" }
     ];
 
     showMessageSequentially(initialMessages, 0, () => showChoices('initial'));
@@ -11,36 +11,32 @@ function showMessageSequentially(messages, index, callback) {
     if (index < messages.length) {
         const message = messages[index];
         setTimeout(() => {
-            addMessage(message.text, message.type);
+            addMessage(message.text, message.sender ? "sender" : "receiver");
             showMessageSequentially(messages, index + 1, callback);
         }, 1000 * index);
-    } else if (callback) {
+    } else if (callback && typeof callback === 'function') {
         callback();
     }
 }
 
 function addMessage(text, className) {
-    if (className === "conclusion") return; // Skip printing conclusion messages
     const chatContainer = document.getElementById('chat-container');
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${className}`;
+    messageDiv.innerHTML = text;
 
-    // Add avatar for receiver
     if (className === "receiver") {
         const avatar = document.createElement('img');
-        // 头像图片的路径
         avatar.src = 'cat.png';
         avatar.className = 'avatar';
-        messageDiv.appendChild(avatar);
+        messageDiv.insertBefore(avatar, messageDiv.firstChild);
     }
 
-    const messageText = document.createElement('span');
-    messageText.innerHTML = text;
-    messageDiv.appendChild(messageText);
-
     chatContainer.appendChild(messageDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-    window.setTimeout(() => messageDiv.style.opacity = 1, 10);
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom after adding message
+    messageDiv.style.opacity = 0;
+    messageDiv.offsetHeight; // Trigger reflow
+    messageDiv.style.opacity = 1; // Fade in effect
 }
 
 
@@ -62,7 +58,7 @@ function showChoices(choiceType) {
 
     const currentChoices = choicesData[choiceType];
     const chatContainer = document.getElementById('chat-container');
-    chatContainer.querySelectorAll('.choice').forEach(el => el.remove()); // Remove all previous choices
+    chatContainer.querySelectorAll('.choice').forEach(el => el.remove());
 
     setTimeout(() => {
         currentChoices.forEach(choice => {
@@ -70,12 +66,14 @@ function showChoices(choiceType) {
             choiceDiv.className = 'message choice';
             choiceDiv.textContent = choice.text;
             choiceDiv.onclick = () => {
-                chatContainer.querySelectorAll('.choice').forEach(el => el.remove()); // Remove other choices
-                addMessage(choice.text, "sender"); // Add chosen option as a message
+                chatContainer.querySelectorAll('.choice').forEach(el => el.remove());
+                addMessage(choice.text, "sender");
                 handleChoice(choice.responseKey);
             };
             chatContainer.appendChild(choiceDiv);
-            window.setTimeout(() => choiceDiv.style.opacity = 1, 10);
+            choiceDiv.style.opacity = 0;
+            choiceDiv.offsetHeight; // Trigger reflow
+            choiceDiv.style.opacity = 1; // Fade in effect
         });
     }, 1000); // Show choices after 1 second
 }
