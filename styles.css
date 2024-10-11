@@ -47,6 +47,7 @@ body {
 }
 
 .sender {
+    max-width: 70%;
     align-self: flex-end;
     background-color: #5c2dea;
     color: white;
@@ -54,6 +55,7 @@ body {
 }
 
 .receiver {
+    max-width: 70%;
     align-self: flex-start;
     background-color: #e0e0e0;
     color: black;
