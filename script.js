@@ -29,7 +29,7 @@ function addMessage(text, className) {
     if (className === "receiver") {
         const avatar = document.createElement('img');
         // 头像图片的路径
-        avatar.src = 'cat.png';
+        avatar.src = 'cat.jpg';
         avatar.className = 'avatar';
         messageDiv.appendChild(avatar);
     }
